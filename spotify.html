@@ -55,23 +55,28 @@
 									<p>See the full code on Github: <a href="https://github.com/mrende1986/DataPipelines/blob/main/Spotipy/avg_album_length_playlist.py.py" target="_blank">Spotify Analysis</a></p>
 								</header>
 								<div>
-									<p style="float: left;"><img src="images/spotipy1.png" height="500px" width="500px" border="1px"></p>
+									<p style="float: left;"><img src="images/spotipy1.png" height="724px" width="584px" border="1px"></p>
 									<p>In the first section of this function I am establishing the dictionary that will be output. Next I'm creating the file using the headers established in the prvious section.</p><br>
 									<p>Next is where the fun starts, for object artists, I'm returning the name of all artists in the playlist <a href="https://open.spotify.com/playlist/37i9dQZF1DWYi488IywmOA?si=4affa4e082d04ded">Best Blues 2021</a>. 
 									This is a popular blues playlist on Spotify. Now that I have all the names of the artists I'll use that information to look up all their albums released in the US. I restrict the data to US releases only as some albums are released in several countries
-									and I do not want to skew the results.</p>
-								</div>
-								<div>
-									<p style="float: right;"><img src="images/spotipy2.png" height="400px" width="500px" border="1px"></p>
-									<p>In the second function we are taking all the artist names found in the first function and returning their albums and album length. In order to get the length I loop through each song 
-										and add the time (in seconds) together</p>
-									<p>Finally I export the row to a CSV file.</p>
+									and I do not want to skew the results.</p><br>
 								</div><br>
 								<br>
-								<br>
-								<br>
 								<div>
-									<p style="float: left;"><img src="images/csvscreenshot.png" height="200px" width="400px" border="1px"></p>
+									<p><img src="images/spotipy2.png" height="225px" width="732px" border="1px"></p>
+								</div>
+								<div>
+									<p>This is a snip of the function that is called in row 41 of the previous function (gather_data). The function retrieves all the artists from the playlist.</p>
+								</div>
+									<br>
+								<br>
+								<br>
+								<br>
+								<h3>CSV data created</h3>
+								<div>
+									<p><img src="images/csvscreenshot.png" height="202px" width="690px" border="1px"></p>
+								</div>
+								<div>
 									<p>As you can see from this screenshot we now have the data required to answer the question. Are Blues albums getting longer as the years go on?</p>
 								</div>
 							</section>
@@ -90,10 +95,9 @@
 									<p>Based on the artists that I analyzed today, you will see there is a clear correlation indicating that albums are getting longer.</p><br>
 									<p>The top analysis is the average of all albumn lengths. I was feeling a bit skeptical of the results so I filter the second chart to
 										only show Joe Bonamassa (fantastic blues artist) and his albums showed the same results. </p><br>
-									<p>I don't think it's fair to summarize all blues albumns based on 50 artists but 
-										it does show some interesting results.
-									</p><br>
+									<p>I don't think it's fair to summarize all blues albums based on 50 artists but it does show some interesting results.	</p><br>
 									<br>
+
 									<br>
 									<br>
 									<br>

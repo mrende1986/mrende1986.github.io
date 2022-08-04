@@ -1,0 +1,196 @@
+<!DOCTYPE HTML>
+<!--
+	Massively by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Matthew Rende - Warby Parker Funnel Project</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+		<div id="wrapper">
+
+			<!-- Header -->
+				<header id="header">
+					<a href="index.html" class="logo">Home</a>
+				</header>
+
+			<!-- Nav -->
+				<nav id="nav">
+					<ul class="links">
+						<li><a href="index.html#main">About Me</a></li>
+						<li><a href="training.html">Training</a></li>
+						<li class="active"><a href="portfolioprojects.html">Portfolio Projects</a></li>
+						<li><a href="books.html">Books</a></li>
+					</ul>
+					<ul class="icons">
+						<li><a href="https://www.instagram.com/mrende/" target="_blank" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+						<li><a href="https://github.com/mrende1986" target="_blank" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+						<li><a href="https://www.linkedin.com/in/matthew-rende/" class="icon brands fa-linkedin"><span class="label">LinkedIn</span></a></li>
+						<li><a href="mailto:mrende@gmail.com" target="_blank" class="icon solid alt fa-envelope"><span class="label">Email</span></a></li>
+						<li><a href="tel:(516)729-9750" target="_blank" class="icon solid alt fa-phone"><span class="label">Email</span></a></li>
+					</ul>
+				</nav>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Post -->
+							<section class="post">
+								<header class="major">
+									<span class="date">January 5, 2022</span>
+									<h1>Warby Parker <br />
+									Funnel Project</h1>
+									<p>The project is from Codecademy's Analyze Data with SQL course. Project description: Warby Parker is a transformative lifestyle brand with a lofty objective:
+										 to offer designer eyewear at a revolutionary price while leading the way for socially conscious 
+										 businesses. Founded in 2010 and named after two characters in an early Jack Kerouac journal, 
+										 Warby Parker believes in creative thinking, smart design, and doing good in the world. For 
+										 every pair of eyeglasses and sunglasses sold, a pair is distributed to someone in need.<br>
+										<br>
+										In this project, I will analyze different Warby Parker’s marketing funnels in order to
+										 calculate conversion rates.</p>
+									<br>
+								</header>
+								<hr>
+								<div>
+									<p>First things first, I want to get a feel for the data. There are three tables, I'll run three queries to see the first five rows of each dataset.<br>
+								</div>
+								<div>
+									<p>SELECT * FROM quiz LIMIT 5;<br></p>
+									<img src="images/warby_parker/warbyparker1.png" height="169px" width="463px" border="1px"><br>
+									<p>SELECT * FROM home_try_on LIMIT 5;<br></p>
+									<img src="images/warby_parker/warbyparker2.png" height="176px" width="606px" border="1px"><br>
+									<p>SELECT * FROM purchase LIMIT 5;</p></p>
+									<img src="images/warby_parker/warbyparker3.png" height="176px" width="808px" border="1px"><br>
+								</div>
+								<br>
+								<div>
+									<p>Next, I'm going to tie together the data using joins based on user_id. This will start to give us some valuable data.</p>
+									<p>&emsp;SELECT DISTINCT q.user_id,<br>
+										&emsp;&emsp;h.user_id IS NOT NULL AS 'is_home_try_on',<br>
+										&emsp;&emsp;h.number_of_pairs,<br>
+										&emsp;&emsp;p.user_id IS NOT NULL AS 'is_purchase'<br>
+										&emsp;FROM quiz q<br>
+										&emsp;LEFT JOIN home_try_on h<br>
+										&emsp;&emsp;ON q.user_id = h.user_id<br>
+										&emsp;&emsp;LEFT JOIN purchase p<br>
+										&emsp;ON p.user_id = q.user_id;</p><br>
+										
+										<h3>Query Results</h3>
+										<img src="images/warby_parker/warbyparker4.png" height="196px" width="635px" border="1px"><br>
+								</div>
+								
+								<div>
+									<p>Let's start looking at conversion. Does everyone that takes the quiz go on to try on? What about purchasing?<br><br>
+										&emsp;WITH q AS (<br>
+											&emsp;&emsp;SELECT '1-Quiz' as stage, COUNT(DISTINCT user_id) FROM quiz),<br>
+											&emsp;h AS (<br>
+												&emsp;SELECT '2-Home-Try-On' as stage, COUNT(DISTINCT user_id) FROM home_try_on),<br>
+												&emsp;p AS (<br>
+													&emsp;SELECT '3-Purchase' as stage, COUNT(DISTINCT user_id) FROM purchase)<br>
+													<br>
+													&emsp;SELECT * FROM q<br>
+													&emsp;UNION ALL<br>
+													&emsp;SELECT * FROM h<br>
+													&emsp;UNION ALL<br>
+													&emsp;SELECT * FROM p;</p><br>
+													<h3>Query Results</h3>
+													<img src="images/warby_parker/warbyparker5.png" height="100px" width="652px" border="1px"><br>
+								</div>
+								<br>
+								<div>
+									<p>Now we a starting point for our conversion rate. Does conversion rate differ depending on if the user tried on 3 pairs or 5 pairs of glasses? How about for men's styles? Let's find out!<br>
+									<br>
+									&emsp;WITH men AS (<br>
+									&emsp;&emsp;SELECT * FROM quiz<br>
+									&emsp;&emsp;WHERE style = "Men's Styles"),<br>
+										<br>
+										&emsp;&emsp;details AS (SELECT DISTINCT q.user_id,<br>
+										&emsp;&emsp;h.user_id IS NOT NULL as 'home_try_on',<br>
+										&emsp;&emsp;h.number_of_pairs as 'AB_variant',<br>
+										&emsp;&emsp;p.user_id IS NOT NULL as 'purchase'<br>
+										&emsp;&emsp;FROM men q<br>
+										&emsp;&emsp;LEFT JOIN home_try_on h<br>
+										&emsp;&emsp;&emsp;ON q.user_id = h.user_id<br>
+										&emsp;&emsp;LEFT JOIN purchase p<br>
+										&emsp;&emsp;&emsp;ON q.user_id = p.user_id),<br>
+										<br>
+										&emsp;&emsp;temp_details AS (SELECT AB_variant,<br>
+										&emsp;&emsp;&emsp;SUM(CASE WHEN home_try_on = 1<br>
+										&emsp;&emsp;&emsp;THEN 1<br>
+										&emsp;&emsp;&emsp;ELSE 0<br>
+										&emsp;&emsp;&emsp;END) as 'home_try_on_total',<br>
+										&emsp;&emsp;&emsp;SUM(CASE WHEN purchase = 1<br>
+										&emsp;&emsp;&emsp;THEN 1<br>
+										&emsp;&emsp;&emsp;ELSE 0<br>
+										&emsp;&emsp;&emsp;END) as 'purchase_total'<br>
+										&emsp;&emsp;FROM details<br>
+										&emsp;&emsp;GROUP BY AB_variant<br>
+										&emsp;&emsp;HAVING 'home_try_on_total' > 0)<br>
+										<br>
+										&emsp;SELECT *, ROUND((1.0 * purchase_total / home_try_on_total),3) as 'conversion_rate'<br>
+										&emsp;FROM temp_details<br>
+										&emsp;WHERE home_try_on_total > 0;<br>
+										<h3>Query Results</h3>
+										<img src="images/warby_parker/warbyparker6.png" height="76px" width="654px" border="1px"><br>
+
+								</p>
+								</div>
+							</section>
+							<section>
+								<style>
+									h3 {
+									  text-align: center;
+									}
+									img {
+										display: block;
+										margin-left: auto;
+										margin-right: auto;
+										}
+									
+									</style>
+								<H3>Analysis / Summary</H3>
+								<div>
+									<br>
+									<br>
+									<br>
+									<p>The results of the last query clearly shows that men who try on five pairs of glasses are more likely to purchase
+										than those who only try on three. The conversation rate is just over 90%. Could this be because the purchaser had more
+										options and found a pair they really like? Before jumping to a conclusion it would be helpful to see the results for women 
+										and the entire population.</p><br>
+									<br>
+
+									<br>
+									<br>
+									<br>
+								</div>
+							</section>
+
+					</div>
+
+
+				<!-- Copyright -->
+					<div id="copyright">
+						<ul><li>&copy; Matthew Rende</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li></ul>
+					</div>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<!--
+	Massively by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>Matthew Rende - Calculating Churn Rates</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+		<div id="wrapper">
+
+			<!-- Header -->
+				<header id="header">
+					<a href="index.html" class="logo">Home</a>
+				</header>
+
+			<!-- Nav -->
+				<nav id="nav">
+					<ul class="links">
+						<li><a href="index.html#main">About Me</a></li>
+						<li><a href="training.html">Training</a></li>
+						<li class="active"><a href="portfolioprojects.html">Portfolio Projects</a></li>
+						<li><a href="books.html">Books</a></li>
+					</ul>
+					<ul class="icons">
+						<li><a href="https://www.instagram.com/mrende/" target="_blank" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+						<li><a href="https://github.com/mrende1986" target="_blank" class="icon brands fa-github"><span class="label">GitHub</span></a></li>
+						<li><a href="https://www.linkedin.com/in/matthew-rende/" class="icon brands fa-linkedin"><span class="label">LinkedIn</span></a></li>
+						<li><a href="mailto:mrende@gmail.com" target="_blank" class="icon solid alt fa-envelope"><span class="label">Email</span></a></li>
+						<li><a href="tel:(516)729-9750" target="_blank" class="icon solid alt fa-phone"><span class="label">Email</span></a></li>
+					</ul>
+				</nav>
+
+				<!-- Main -->
+					<div id="main">
+
+						<!-- Post -->
+							<section class="post">
+								<header class="major">
+									<span class="date">February 12, 2022</span>
+									<h1>Calculating Churn Rates Project</h1>
+									<p>The project is from Codecademy's Analyze Data with SQL course. Four months into launching Codeflix, management asks you to look into subscription churn rates. It’s early on in the 
+										business and people are excited to know how the company is doing.<br>
+										<br>
+										The marketing department is particularly interested in how the churn compares between two segments of users. They 
+										provide you with a dataset containing subscription data for users who were acquired through two distinct channels.<br>
+									<br>
+								</header>
+								<hr>
+								<div>
+									<p>First things first, I'll take a quick look at the data. After running a select distinct on segment, I was able to establish there are two segments 30 and 87.<br>
+								</div>
+								<div>
+									<img src="images/Churn/churn1.png" height="132px" width="837px" border="1px"><br>
+								</div>
+								<br>
+								<div>
+									<p>Next, I'd like to get a sense of data. I want to see the min and max for subscription start:</p>
+									<img src="images/Churn/churn2.png" border="1px"><br>
+									<h3>Query Results</h3>
+									<img src="images/Churn/churn3.png" border="1px"><br>
+								</div>
+								
+								<div>
+									<p>In my analysis, I want to establish the churn rate. In order to do this I must first establish the first
+										and last day of each month. I'm going to use a with (CTE) statement so I can use this table later in my 
+										query</p>
+									<img src="images/Churn/churn4.png" border="1px"><br>
+									<p>With the first and last day established, I'm now going to cross join with table subscriptions.</p>
+									<img src="images/Churn/churn5.png" border="1px"><br>
+									<p>Next, I'll use a CASE statement to simplify the data. I'll create a few buckets.<br>
+									is_active_87 and is_canceled_87<br>
+									is_active_30 and is_active_30</p>
+									<img src="images/Churn/churn6.png" border="1px"><br>
+									<p>With all this out of the way I can finally start making useful of the data.</p>
+									<img src="images/Churn/churn7.png" border="1px">
+								</div>
+								<br>
+								<div>
+									<h3>Query Results / Analysis</h3>
+									<img src="images/Churn/churn8.png" border="1px"><br>
+									<p>There is not much difference in churn amongst the two groups but we can see there is a significatly
+										higher churn rate in march.
+									</p>
+								</div>
+							</section>
+							<section>
+								<style>
+									h3 {
+									  text-align: center;
+									}
+									img {
+										display: block;
+										margin-left: auto;
+										margin-right: auto;
+										}
+									
+									</style>
+							</section>
+
+					</div>
+
+
+				<!-- Copyright -->
+					<div id="copyright">
+						<ul><li>&copy; Matthew Rende</li><li>Design: <a href="https://html5up.net">HTML5 UP</a></li></ul>
+					</div>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrollex.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/browser.min.js"></script>
+			<script src="assets/js/breakpoints.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+
+	</body>
+</html>

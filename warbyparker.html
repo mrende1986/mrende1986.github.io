@@ -73,15 +73,7 @@
 								<br>
 								<div>
 									<p>Next, I'm going to tie together the data using joins based on user_id. This will start to give us some valuable data.</p>
-									<p>&emsp;SELECT DISTINCT q.user_id,<br>
-										&emsp;&emsp;h.user_id IS NOT NULL AS 'is_home_try_on',<br>
-										&emsp;&emsp;h.number_of_pairs,<br>
-										&emsp;&emsp;p.user_id IS NOT NULL AS 'is_purchase'<br>
-										&emsp;FROM quiz q<br>
-										&emsp;LEFT JOIN home_try_on h<br>
-										&emsp;&emsp;ON q.user_id = h.user_id<br>
-										&emsp;&emsp;LEFT JOIN purchase p<br>
-										&emsp;ON p.user_id = q.user_id;</p><br>
+									<img src="images/warby_parker/warbyparker7.png" border="1px">
 										
 										<h3>Query Results</h3>
 										<img src="images/warby_parker/warbyparker4.png" height="196px" width="635px" border="1px"><br>
@@ -89,55 +81,14 @@
 								
 								<div>
 									<p>Let's start looking at conversion. Does everyone that takes the quiz go on to try on? What about purchasing?<br><br>
-										&emsp;WITH q AS (<br>
-											&emsp;&emsp;SELECT '1-Quiz' as stage, COUNT(DISTINCT user_id) FROM quiz),<br>
-											&emsp;h AS (<br>
-												&emsp;SELECT '2-Home-Try-On' as stage, COUNT(DISTINCT user_id) FROM home_try_on),<br>
-												&emsp;p AS (<br>
-													&emsp;SELECT '3-Purchase' as stage, COUNT(DISTINCT user_id) FROM purchase)<br>
-													<br>
-													&emsp;SELECT * FROM q<br>
-													&emsp;UNION ALL<br>
-													&emsp;SELECT * FROM h<br>
-													&emsp;UNION ALL<br>
-													&emsp;SELECT * FROM p;</p><br>
+										<img src="images/warby_parker/warbyparker8.png" border="1px">
 													<h3>Query Results</h3>
 													<img src="images/warby_parker/warbyparker5.png" height="100px" width="652px" border="1px"><br>
 								</div>
 								<br>
 								<div>
 									<p>Now we a starting point for our conversion rate. Does conversion rate differ depending on if the user tried on 3 pairs or 5 pairs of glasses? How about for men's styles? Let's find out!<br>
-									<br>
-									&emsp;WITH men AS (<br>
-									&emsp;&emsp;SELECT * FROM quiz<br>
-									&emsp;&emsp;WHERE style = "Men's Styles"),<br>
-										<br>
-										&emsp;&emsp;details AS (SELECT DISTINCT q.user_id,<br>
-										&emsp;&emsp;h.user_id IS NOT NULL as 'home_try_on',<br>
-										&emsp;&emsp;h.number_of_pairs as 'AB_variant',<br>
-										&emsp;&emsp;p.user_id IS NOT NULL as 'purchase'<br>
-										&emsp;&emsp;FROM men q<br>
-										&emsp;&emsp;LEFT JOIN home_try_on h<br>
-										&emsp;&emsp;&emsp;ON q.user_id = h.user_id<br>
-										&emsp;&emsp;LEFT JOIN purchase p<br>
-										&emsp;&emsp;&emsp;ON q.user_id = p.user_id),<br>
-										<br>
-										&emsp;&emsp;temp_details AS (SELECT AB_variant,<br>
-										&emsp;&emsp;&emsp;SUM(CASE WHEN home_try_on = 1<br>
-										&emsp;&emsp;&emsp;THEN 1<br>
-										&emsp;&emsp;&emsp;ELSE 0<br>
-										&emsp;&emsp;&emsp;END) as 'home_try_on_total',<br>
-										&emsp;&emsp;&emsp;SUM(CASE WHEN purchase = 1<br>
-										&emsp;&emsp;&emsp;THEN 1<br>
-										&emsp;&emsp;&emsp;ELSE 0<br>
-										&emsp;&emsp;&emsp;END) as 'purchase_total'<br>
-										&emsp;&emsp;FROM details<br>
-										&emsp;&emsp;GROUP BY AB_variant<br>
-										&emsp;&emsp;HAVING 'home_try_on_total' > 0)<br>
-										<br>
-										&emsp;SELECT *, ROUND((1.0 * purchase_total / home_try_on_total),3) as 'conversion_rate'<br>
-										&emsp;FROM temp_details<br>
-										&emsp;WHERE home_try_on_total > 0;<br>
+										<img src="images/warby_parker/warbyparker9.png" border="1px">
 										<h3>Query Results</h3>
 										<img src="images/warby_parker/warbyparker6.png" height="76px" width="654px" border="1px"><br>
 
